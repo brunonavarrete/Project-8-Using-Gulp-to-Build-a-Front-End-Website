@@ -1,4 +1,4 @@
-const 	gulp = require('gulp'),
+const 	gulp = require('gulp'), // -v 4 alpha
 		concat = require('gulp-concat'),
 		uglify = require('gulp-uglify'),
 		maps = require('gulp-sourcemaps'),
@@ -83,17 +83,15 @@ const opts = {
 			done();
 		}));
 
-	// serve
-		gulp.task('serve', gulp.series( 'build', () => {
-			browserSync.init({
-				server: {
-					baseDir: 'dist'
-				}
-			});
-			gulp.watch(opts.src + '/sass/**/*.scss', gulp.series('reload') );
-		}));
-
+// Dev pipeline
 	// default
-		gulp.task('default', gulp.series('serve', () => {
-			console.log('served');
+		gulp.task('default', gulp.series('build', () => {
+			// serve
+				browserSync.init({
+					server: {
+						baseDir: 'dist'
+					}
+				});
+			// watch
+				gulp.watch(opts.src + '/sass/**/*.scss', gulp.series('reload') );
 		}));
